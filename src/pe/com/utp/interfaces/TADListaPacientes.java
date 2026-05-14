@@ -19,4 +19,11 @@ public interface TADListaPacientes {
 
     // Elimina un paciente mediante su DNI
     void eliminarPaciente(String dni);
+
+    int obtenerTamanio();
+    boolean estaVacia();
+    void ordenarPorNombre();
+    void insertarAlInicio(Paciente paciente);
+    void actualizarTelefono(String dni, String nuevoTelefono);
+
 }
