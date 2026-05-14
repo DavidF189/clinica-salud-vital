@@ -116,5 +116,9 @@ public class Main {
 
         listaPacientes.mostrarPacientes();
 
+        System.out.println("\n===== TAMAÑO FINAL DE LA LISTA =====");
+        
+        System.out.println("Total pacientes: " + listaPacientes.obtenerTamanio());
+
     }
 }
