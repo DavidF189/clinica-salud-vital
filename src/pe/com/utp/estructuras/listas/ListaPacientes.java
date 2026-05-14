@@ -8,10 +8,12 @@ public class ListaPacientes implements TADListaPacientes {
 
     // Primer nodo de la lista
     private Nodo inicio;
+    private int tamanio;
 
     // Constructor de la lista. Inicialmente la lista está vacía
     public ListaPacientes() {
         inicio = null;
+        tamanio = 0;
     }
 
     // Inserta un nuevo paciente al final de la lista enlazada
@@ -39,6 +41,7 @@ public class ListaPacientes implements TADListaPacientes {
         }
 
         System.out.println("Paciente insertado correctamente en la lista");
+        tamanio++;
     }
 
     // Muestra todos los pacientes almacenados en la lista enlazada
@@ -106,7 +109,7 @@ public class ListaPacientes implements TADListaPacientes {
         if (inicio.getPaciente().getDni().equals(dni)) {
 
             inicio = inicio.getSiguiente();
-
+            tamanio--;
             System.out.println("Paciente eliminado correctamente");
             return;
         }
@@ -131,7 +134,57 @@ public class ListaPacientes implements TADListaPacientes {
 
         // Desconecta el nodo encontrado de la lista
         anterior.setSiguiente(actual.getSiguiente());
-
+        tamanio--;
         System.out.println("Paciente eliminado correctamente");
+    
+    }
+    
+    @Override
+    public int obtenerTamanio() {
+        return tamanio;
+    }
+    
+    @Override
+    public boolean estaVacia() {
+        return inicio == null;
+    }
+    
+    @Override
+    public void ordenarPorNombre() {
+        if (tamanio < 2) return;
+        
+        for (int i = 0; i < tamanio - 1; i++) {
+            Nodo actual = inicio;
+            for (int j = 0; j < tamanio - i - 1; j++) {
+                if (actual.getPaciente().getNombre()
+                    .compareToIgnoreCase(actual.getSiguiente().getPaciente().getNombre()) > 0) {
+                    Paciente temp = actual.getPaciente();
+                    actual.setPaciente(actual.getSiguiente().getPaciente());
+                    actual.getSiguiente().setPaciente(temp);
+                }
+                actual = actual.getSiguiente();
+            }
+        }
+        System.out.println("Lista ordenada por nombre");
+    }
+    
+    @Override
+    public void insertarAlInicio(Paciente paciente) {
+        Nodo nuevoNodo = new Nodo(paciente);
+        nuevoNodo.setSiguiente(inicio);
+        inicio = nuevoNodo;
+        tamanio++;
+        System.out.println("Paciente insertado al inicio");
+    }
+    
+    @Override
+    public void actualizarTelefono(String dni, String nuevoTelefono) {
+        Paciente paciente = buscarPacientePorDni(dni);
+        if (paciente != null) {
+            paciente.setTelefono(nuevoTelefono);
+            System.out.println("Teléfono actualizado correctamente");
+        } else {
+            System.out.println("Paciente no encontrado");
+        }
     }
 }
